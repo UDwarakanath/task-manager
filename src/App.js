@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import TaskForm from "./components/TaskForm";
+import TaskList from "./components/TaskList";
+import TaskFilters from "./components/TaskFilters";
+import "./styles.css";
+import { useDispatch } from "react-redux";
+import { clearTasks } from "./features/tasksSlice";
 
-function App() {
+const App = () => {
+  const [filter, setFilter] = useState("all");
+  const [sortOrder, setSortOrder] = useState("asc");
+
+  const dispatch = useDispatch();
+
+  const clearAllTasks = () => {
+    dispatch(clearTasks());
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <h1>Task Management</h1>
+      <TaskForm />
+      <TaskFilters
+        setFilter={setFilter}
+        setSortOrder={setSortOrder}
+        clearAllTasks={clearAllTasks}
+      />
+      <TaskList filter={filter} sortOrder={sortOrder} />
     </div>
   );
-}
+};
 
 export default App;
